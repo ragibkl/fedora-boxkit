@@ -5,8 +5,8 @@ LABEL com.github.containers.toolbox="true" \
       summary="A cloud-native terminal experience" \
       maintainer="ragib.badaruddin@gmail.com"
 
-RUN dnf group install "C Development Tools and Libraries"
-RUN dnf group install "Development Tools"
+RUN dnf group install -y "C Development Tools and Libraries"
+RUN dnf group install -y "Development Tools"
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
     chmod a+x /usr/local/bin/mise
