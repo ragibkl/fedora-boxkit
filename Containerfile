@@ -12,5 +12,6 @@ RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     chmod a+x /usr/local/bin/mise
 
 COPY mise-profile.sh /etc/profile.d/mise-profile.sh
+COPY code.sh /usr/local/bin/code
 
 RUN ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker
