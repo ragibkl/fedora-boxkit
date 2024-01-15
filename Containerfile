@@ -7,6 +7,9 @@ LABEL com.github.containers.toolbox="true" \
 
 RUN dnf group install -y "C Development Tools and Libraries"
 RUN dnf group install -y "Development Tools"
+RUN dnf install -y openssl-devel readline-devel zlib-devel libcurl-devel uuid-devel libuuid-devel
+RUN dnf install -y perl-FindBin perl-IPC-Cmd
+
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
     chmod a+x /usr/local/bin/mise
