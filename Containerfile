@@ -8,6 +8,7 @@ LABEL com.github.containers.toolbox="true" \
 # Install some dev tools and dependencies
 RUN dnf group install -y "C Development Tools and Libraries" "Development Tools"
 RUN dnf install -y \
+    clang \
     cmake \
     libcurl-devel \
     libuuid-devel \
