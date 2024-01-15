@@ -14,6 +14,7 @@ RUN dnf install -y \
     openssl-devel \
     perl-FindBin \
     perl-IPC-Cmd \
+    protobuf-c-compiler \
     readline-devel \
     uuid-devel \
     zlib-devel
