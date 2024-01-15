@@ -5,16 +5,29 @@ LABEL com.github.containers.toolbox="true" \
       summary="A cloud-native terminal experience" \
       maintainer="ragib.badaruddin@gmail.com"
 
-RUN dnf group install -y "C Development Tools and Libraries"
-RUN dnf group install -y "Development Tools"
-RUN dnf install -y openssl-devel readline-devel zlib-devel libcurl-devel uuid-devel libuuid-devel
-RUN dnf install -y perl-FindBin perl-IPC-Cmd
+# Install some dev tools and dependencies
+RUN dnf group install -y "C Development Tools and Libraries" "Development Tools"
+RUN dnf install -y \
+    cmake \
+    libcurl-devel \
+    libuuid-devel \
+    openssl-devel \
+    perl-FindBin \
+    perl-IPC-Cmd \
+    readline-devel \
+    uuid-devel \
+    zlib-devel
 
+# Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
     chmod a+x /usr/local/bin/mise
 
+# Activate mise
 COPY mise-profile.sh /etc/profile.d/mise-profile.sh
+
+# Run vscode on the host and attach to current container
 COPY code.sh /usr/local/bin/code
 
+# Run docker on the host
 RUN ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker
