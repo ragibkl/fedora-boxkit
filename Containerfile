@@ -10,6 +10,7 @@ RUN dnf group install -y "C Development Tools and Libraries" "Development Tools"
 RUN dnf install -y \
     clang \
     cmake \
+    direnv \
     libcurl-devel \
     libuuid-devel \
     openssl-devel \
@@ -27,6 +28,9 @@ RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
 
 # Activate mise
 COPY mise-profile.sh /etc/profile.d/mise-profile.sh
+
+# Activate direnv
+COPY direnv-profile.sh /etc/profile.d/direnv-profile.sh
 
 # Run vscode on the host and attach to current container
 COPY code.sh /usr/local/bin/code
