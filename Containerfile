@@ -12,6 +12,7 @@ RUN dnf install -y \
     clang \
     cmake \
     direnv \
+    kubernetes-client \
     libcurl-devel \
     libuuid-devel \
     openssl-devel \
