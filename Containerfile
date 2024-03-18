@@ -30,11 +30,13 @@ RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
 
 # Activate mise
 # COPY mise-profile.sh /etc/profile.d/mise-profile.sh
-RUN eval "$(/usr/local/bin/mise activate bash)"
+# RUN eval "$(/usr/local/bin/mise activate bash)"
+RUN echo 'eval "$(/usr/local/bin/mise activate bash)"' >> /etc/bashrc
 
 # Activate direnv
 # COPY direnv-profile.sh /etc/profile.d/direnv-profile.sh
-RUN eval "$(direnv hook bash)"
+# RUN eval "$(direnv hook bash)"
+RUN echo 'eval "$(direnv hook bash)"' >> /etc/bashrc
 
 # Run vscode on the host and attach to current container
 COPY code.sh /usr/local/bin/code
