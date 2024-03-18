@@ -23,23 +23,21 @@ RUN dnf install -y \
     uuid-devel \
     zlib-devel
 
+# Install vscode
+RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
+RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+RUN dnf check-update && dnf install -y code
+
 # Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
     chmod a+x /usr/local/bin/mise
 
 # Activate mise
-# COPY mise-profile.sh /etc/profile.d/mise-profile.sh
-# RUN eval "$(/usr/local/bin/mise activate bash)"
 RUN echo 'eval "$(/usr/local/bin/mise activate bash)"' >> /etc/bashrc
 
 # Activate direnv
-# COPY direnv-profile.sh /etc/profile.d/direnv-profile.sh
-# RUN eval "$(direnv hook bash)"
 RUN echo 'eval "$(direnv hook bash)"' >> /etc/bashrc
-
-# Run vscode on the host and attach to current container
-COPY code.sh /usr/local/bin/code
 
 # Run docker on the host
 RUN ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker
