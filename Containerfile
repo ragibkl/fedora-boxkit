@@ -9,9 +9,6 @@ LABEL com.github.containers.toolbox="true" \
 RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 
-# System update
-RUN dnf update -y
-
 # Install some dev tools and dependencies
 RUN dnf group install -y "C Development Tools and Libraries" "Development Tools"
 RUN dnf install -y \
@@ -19,6 +16,8 @@ RUN dnf install -y \
     clang \
     cmake \
     code \
+    community-mysql \
+    community-mysql-libs \
     direnv \
     kubernetes-client \
     libcurl-devel \
