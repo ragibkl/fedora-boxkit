@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:40
+FROM registry.fedoraproject.org/fedora-toolbox:42
 
 LABEL com.github.containers.toolbox="true" \
       usage="This image is meant to be used with the toolbox or distrobox command" \
@@ -10,7 +10,7 @@ RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 
 # Install some dev tools and dependencies
-RUN dnf group install -y "C Development Tools and Libraries" "Development Tools"
+RUN dnf group install -y "c-development" "development-tools"
 RUN dnf install -y \
     bind-utils \
     clang \
