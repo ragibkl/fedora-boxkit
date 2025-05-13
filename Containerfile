@@ -30,6 +30,9 @@ RUN dnf install -y \
     uuid-devel \
     zlib-devel
 
+# Install zed editor
+RUN curl -f https://zed.dev/install.sh | sh
+
 # Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
