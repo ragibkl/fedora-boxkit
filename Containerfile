@@ -32,10 +32,8 @@ RUN dnf install -y \
 
 # Install zed editor
 RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
-    && tar -xzf zed-linux-x86_64.tar.gz \
+    && tar -m --no-overwrite-dir -xzf zed-linux-x86_64.tar.gz \
     && rm zed-linux-x86_64.tar.gz \
-    && chmod -R a-w zed.app \
-    && chmod -R a+x zed.app \
     && mv zed.app /opt/. \
     && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
 
