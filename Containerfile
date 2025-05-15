@@ -31,11 +31,13 @@ RUN dnf install -y \
     zlib-devel
 
 # Install zed editor
-RUN cd /opt/ \
-    && wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
+RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
     && tar -xzf zed-linux-x86_64.tar.gz \
-    && rm zed-linux-x86_64.tar.gz
-RUN ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
+    && rm zed-linux-x86_64.tar.gz \
+    && chmod -R a-w zed.app \
+    && chmod -R a+x zed.app \
+    && mv zed.app /opt/. \
+    && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
 
 # Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
