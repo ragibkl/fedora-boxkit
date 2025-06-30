@@ -9,6 +9,9 @@ LABEL com.github.containers.toolbox="true" \
 RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 
+# Setup zed repo
+RUN dnf copr enable che/zed -y
+
 # Install some dev tools and dependencies
 RUN dnf group install -y "c-development" "development-tools"
 RUN dnf install -y \
@@ -28,15 +31,16 @@ RUN dnf install -y \
     protobuf-c-compiler \
     readline-devel \
     uuid-devel \
+    zed \
     zlib-devel
 
-# Install zed editor
-RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
-    && tar -m --no-same-owner --no-overwrite-dir -xzf zed-linux-x86_64.tar.gz || true \
-    && rm zed-linux-x86_64.tar.gz \
-    && mv zed.app /opt/. \
-    && sudo chmod a+rx -R /opt/zed.app/ \
-    && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
+## Install zed editor
+# RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
+#     && tar -m --no-same-owner --no-overwrite-dir -xzf zed-linux-x86_64.tar.gz || true \
+#     && rm zed-linux-x86_64.tar.gz \
+#     && mv zed.app /opt/. \
+#     && sudo chmod a+rx -R /opt/zed.app/ \
+#     && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
 
 # Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
