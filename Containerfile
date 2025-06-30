@@ -34,14 +34,6 @@ RUN dnf install -y \
     zed \
     zlib-devel
 
-## Install zed editor
-# RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
-#     && tar -m --no-same-owner --no-overwrite-dir -xzf zed-linux-x86_64.tar.gz || true \
-#     && rm zed-linux-x86_64.tar.gz \
-#     && mv zed.app /opt/. \
-#     && sudo chmod a+rx -R /opt/zed.app/ \
-#     && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
-
 # Install mise
 RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
     mv mise-latest-linux-x64 /usr/local/bin/mise && \
