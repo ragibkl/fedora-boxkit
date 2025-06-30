@@ -35,7 +35,7 @@ RUN wget https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz \
     && tar -m --no-same-owner --no-overwrite-dir -xzf zed-linux-x86_64.tar.gz || true \
     && rm zed-linux-x86_64.tar.gz \
     && mv zed.app /opt/. \
-    && chmod a+rx -R /opt/zed.app/ \
+    && sudo chmod a+rx -R /opt/zed.app/ \
     && ln -fs /opt/zed.app/bin/zed /usr/local/bin/zed
 
 # Install mise
