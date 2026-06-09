@@ -19,8 +19,8 @@ RUN dnf install -y \
     clang \
     cmake \
     code \
-    community-mysql \
-    community-mysql-libs \
+    mysql \
+    mysql-libs \
     direnv \
     kubernetes-client \
     libcurl-devel \
