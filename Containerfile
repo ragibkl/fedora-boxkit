@@ -19,6 +19,14 @@ RUN dnf group install -y "c-development" && \
         protobuf-c-compiler readline-devel uuid-devel zlib-devel && \
     dnf clean all && rm -rf /var/cache/dnf /var/cache/libdnf5 /var/log/dnf* /tmp/*
 
+# RPM Fusion (free + nonfree) for full ffmpeg + Intel hardware video (VAAPI/iHD)
+# Used for motovlog footage: hardware HEVC encode, rotate/join Insta360 clips
+RUN dnf install -y \
+        "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+        "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" && \
+    dnf install -y --allowerasing ffmpeg intel-media-driver libva-utils && \
+    dnf clean all && rm -rf /var/cache/dnf /var/cache/libdnf5 /var/log/dnf* /tmp/*
+
 # mise + direnv
 RUN curl -fsSL https://mise.jdx.dev/mise-latest-linux-x64 -o /usr/local/bin/mise && \
     chmod a+x /usr/local/bin/mise && \
