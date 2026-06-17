@@ -5,45 +5,25 @@ LABEL com.github.containers.toolbox="true" \
       summary="A cloud-native terminal experience" \
       maintainer="ragib.badaruddin@gmail.com"
 
-# Setup vscode repo
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
-RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+# VS Code repo
+RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    printf '[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc\n' > /etc/yum.repos.d/vscode.repo
 
-# Setup zed repo
-RUN dnf copr enable che/zed -y
+# Dev tools + deps (single layer, cache cleaned in-place)
+RUN dnf group install -y "c-development" && \
+    dnf install -y \
+        git \
+        bind-utils clang cmake code direnv kubernetes-client \
+        libcurl-devel libuuid-devel mysql mysql-libs openssl-devel \
+        perl-FindBin perl-IPC-Cmd postgresql libpq libpq-devel \
+        protobuf-c-compiler readline-devel uuid-devel zlib-devel && \
+    dnf clean all && rm -rf /var/cache/dnf /var/cache/libdnf5 /var/log/dnf* /tmp/*
 
-# Install some dev tools and dependencies
-RUN dnf group install -y "c-development" "development-tools"
-RUN dnf install -y \
-    bind-utils \
-    clang \
-    cmake \
-    code \
-    mysql \
-    mysql-libs \
-    direnv \
-    kubernetes-client \
-    libcurl-devel \
-    libuuid-devel \
-    openssl-devel \
-    perl-FindBin \
-    perl-IPC-Cmd \
-    protobuf-c-compiler \
-    readline-devel \
-    uuid-devel \
-    zed \
-    zlib-devel
+# mise + direnv
+RUN curl -fsSL https://mise.jdx.dev/mise-latest-linux-x64 -o /usr/local/bin/mise && \
+    chmod a+x /usr/local/bin/mise && \
+    echo 'eval "$(/usr/local/bin/mise activate bash)"' >> /etc/bashrc && \
+    echo 'eval "$(direnv hook bash)"' >> /etc/bashrc
 
-# Install mise
-RUN wget https://mise.jdx.dev/mise-latest-linux-x64 && \
-    mv mise-latest-linux-x64 /usr/local/bin/mise && \
-    chmod a+x /usr/local/bin/mise
-
-# Activate mise
-RUN echo 'eval "$(/usr/local/bin/mise activate bash)"' >> /etc/bashrc
-
-# Activate direnv
-RUN echo 'eval "$(direnv hook bash)"' >> /etc/bashrc
-
-# Run docker on the host
+# Use the host's docker
 RUN ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker
